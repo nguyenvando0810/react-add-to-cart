@@ -19,7 +19,11 @@ class ProductsContainer extends React.Component {
     if (products.length > 0) {
       return products.map((product, index) => {
         return (
-          <Product key={index} product={product} addToCart={this.props.addToCart}/>
+          <Product
+            key={index}
+            product={product}
+            addToCart={this.props.addToCart}
+            />
         )
       })
     }
@@ -34,9 +38,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    addToCart: (product) =>{
+    addToCart: (product) => {
       dispatch(addToCart(product, 1))
-    }
+    },
   }
 }
 

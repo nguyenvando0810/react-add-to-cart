@@ -4,6 +4,7 @@ class Cart extends React.Component {
   render() {
     return (
       <section className="section">
+        <h1 className=" text-right">Cart</h1>
         <div className="table-responsive">
           <table className="table product-table">
             <thead>

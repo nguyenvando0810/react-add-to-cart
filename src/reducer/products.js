@@ -1,8 +1,8 @@
 const initialState = [{
     id: 1,
-    name: 'Iphone 6 Plus',
+    name: 'Iphone 6 Plus (512GB)',
     imageUrl: 'https://cdn.tgdd.vn/Products/Images/42/114111/iphone-x-256gb-a1-600x600.jpg',
-    description: 'iphone 1',
+    description: 'Iphone 6 Plus (512GB)',
     price: 1000,
     inventory: 10,
     rating: 5

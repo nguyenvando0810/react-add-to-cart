@@ -10,7 +10,7 @@ class Product extends React.Component {
 
     return (
       <div className="col-lg-4 col-md-6 mb-r">
-        <div className="card text-center card-cascade narrower">
+        <div className="card text-center card-cascade narrower" style={{ height: '100%' }}>
           <div className="view overlay hm-white-slight z-depth-1">
             <img
               src={product.imageUrl}

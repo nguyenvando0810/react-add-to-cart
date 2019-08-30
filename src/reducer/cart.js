@@ -1,45 +1,67 @@
 import * as types from '../constants/actionType'
 
-// const data = JSON.parse(localStorage.getItem('CART'))
-const initialState = [{
-    product: {
-      id: 2,
-      name: 'Xiaomi Redmi Note 7 64GB',
-      imageUrl: 'https://cdn.tgdd.vn/Products/Images/42/167535/xiaomi-redmi-note-7-600x600.jpg',
-      description: 'Xiaomi Redmi Note 7 64GB',
-      price: 1200,
-      inventory: 10,
-      rating: 3
-    },
-    quantity: 4
-  },
-  {
-    product: {
-      id: 3,
-      name: 'Samsung Galaxy S10+ (512GB)',
-      imageUrl: 'https://cdn.tgdd.vn/Products/Images/42/198986/samsung-galaxy-s10-plus-512gb-ceramic-black-600x600.jpg',
-      description: 'Samsung Galaxy S10+ (512GB)',
-      price: 1500,
-      inventory: 15,
-      rating: 2
-    },
-    quantity: 2
-  }
-]
+const data = JSON.parse(localStorage.getItem('CART'))
+const initialState = data ? data : []
 
 const CartReducer = (state = initialState, action) => {
+  let indexCart = -1
+
   switch (action.type) {
     case types.ADD_TO_CART:
-      state = [...state, {
-        product: action.product,
-        quantity: action.quantity
-      }]
+      indexCart = findIndexCart(state, action.product)
+
+      if (indexCart !== -1) {
+        state[indexCart].quantity += action.quantity
+      } else {
+        state = [...state, {
+          product: action.product,
+          quantity: action.quantity
+        }]
+      }
+
+      localStorage.setItem('CART', JSON.stringify(state))
 
       return [...state];
 
+    case types.DELETE_ITEM_CART:
+      let newCart = state.filter((product) => {
+        return product.product.id !== action.id
+      })
+
+      state = [...newCart]
+
+      localStorage.setItem('CART', JSON.stringify(state))
+
+      return [...state];
+
+    case types.UPDATE_QUANTITY_CART:
+      indexCart = findIndexCart(state, action.product)
+
+      if (indexCart !== -1) {
+        state[indexCart].quantity = action.quantity
+      }
+
+      localStorage.setItem('CART', JSON.stringify(state))
+
+      return [...state];
     default:
       return [...state];
   }
 }
 
-export default CartReducer
+let findIndexCart = (cart, product) => {
+  let indexCart = -1
+
+  if (cart.length > 0) {
+    for (let i = 0; i < cart.length; i++) {
+      if (cart[i].product.id === product.id) {
+        indexCart = i
+        break
+      }
+    }
+  }
+
+  return indexCart
+}
+
+export default CartReducer;

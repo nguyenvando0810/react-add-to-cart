@@ -1,8 +1,33 @@
 import React from 'react';
 
 class CartItem extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      quantity: 1
+    }
+
+    this.onUpdateQuantity = this.onUpdateQuantity.bind(this)
+  }
+
+  onDeleteCartItem(id) {
+    this.props.onDeleteCartItem(id)
+  }
+
+  onUpdateQuantity(product, quantity) {
+    if (quantity > 0) {
+      this.setState = ({
+        quantity: quantity
+      })
+
+      this.props.onUpdateCartItem(product, quantity)
+    }
+  }
+
   render() {
     let { item } = this.props
+    let { quantity } = item.quantity > 0 ? item : this.state
 
     return (
       <tr>
@@ -16,19 +41,19 @@ class CartItem extends React.Component {
         </td>
         <td>{item.product.price} $</td>
         <td className="center-on-small-only">
-          <span className="qty mr-2">{item.quantity}</span>
+          <span className="qty mr-2">{quantity}</span>
           <div className="btn-group radio-group" data-toggle="buttons">
-            <label className="btn btn-sm btn-primary btn-rounded waves-effect waves-light">
+            <label className="btn btn-sm btn-primary btn-rounded waves-effect waves-light" onClick={this.onUpdateQuantity.bind(this, item.product, item.quantity - 1)}>
               <span> — </span>
             </label>
-            <label className="btn btn-sm btn-primary btn-rounded waves-effect waves-light">
+            <label className="btn btn-sm btn-primary btn-rounded waves-effect waves-light" onClick={this.onUpdateQuantity.bind(this, item.product, item.quantity + 1)}>
               <span> + </span>
             </label>
           </div>
         </td>
         <td>{item.product.price * item.quantity} $</td>
         <td>
-          <button type="button" className="btn btn-sm btn-primary waves-effect waves-light" data-toggle="tooltip" data-placement="top" title="" data-original-title="Remove item">X </button>
+          <button type="button" className="btn btn-sm btn-primary waves-effect waves-light" onClick={this.onDeleteCartItem.bind(this, item.product.id)}>X</button>
         </td>
       </tr>
     )
